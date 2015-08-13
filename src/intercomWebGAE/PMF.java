@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package jintercom13;
+package intercomWebGAE;
 
 
 import javax.jdo.JDOHelper;

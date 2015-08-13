@@ -1,4 +1,4 @@
-package jintercom13;
+package intercomWebGAE;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.gson.annotations.Expose;
@@ -19,12 +19,6 @@ public class Appareil {
     @Persistent
     @Expose
     private String compte;
-    @Expose
-    @Persistent
-    private String server;
-    @Persistent
-    @Expose
-    private int portSsh;
     @Persistent
     @Expose
     private int port;
@@ -32,12 +26,10 @@ public class Appareil {
     private String event;
     @Persistent
     private String imei;
-
-    public Appareil(String compte, String imei, String server, int portSsh, int port, String event) {
+    
+    public Appareil(String compte, String imei, int port, String event) {
 		super();
 		this.compte = compte;
-		this.server = server;
-		this.portSsh = portSsh;
 		this.port = port;
 		this.event=event;
 		this.imei=imei;
@@ -57,22 +49,6 @@ public class Appareil {
 
 	public void setCompte(String compte) {
 		this.compte = compte;
-	}
-
-	public String getServer() {
-		return server;
-	}
-
-	public void setServer(String server) {
-		this.server = server;
-	}
-
-	public int getPortSsh() {
-		return portSsh;
-	}
-
-	public void setPortSsh(int portSsh) {
-		this.portSsh = portSsh;
 	}
 
 	public int getPort() {

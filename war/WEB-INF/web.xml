@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<web-app 
-  xmlns="http://java.sun.com/xml/ns/javaee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-  version="3.0">
-  
-     <servlet>
-  <servlet-name>Jintercom13Servlet</servlet-name>
-  <servlet-class>jintercom13.Jintercom13Servlet</servlet-class>
-  <init-param>
-   <param-name>services</param-name>
-   <param-value/>
-  </init-param>
- </servlet>
- 
-   <servlet-mapping>
-    <servlet-name>Jintercom13Servlet</servlet-name>
-    <url-pattern>/*</url-pattern>
-  </servlet-mapping>
-  
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<servlet>
+		<servlet-name>Jintercom13Servlet</servlet-name>
+		<servlet-class>intercomWebGAE.Jintercom13Servlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value />
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Jintercom13Servlet</servlet-name>
+		<url-pattern>/db/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+		<servlet>
+		<servlet-name>OpenDoorServlet</servlet-name>
+		<servlet-class>intercomWebGAE.OpenDoorServlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value />
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>OpenDoorServlet</servlet-name>
+		<url-pattern>/od/*</url-pattern>
+	</servlet-mapping>
+
 </web-app>

@@ -1,4 +1,4 @@
-package jintercom13;
+package intercomWebGAE;
 
 import java.io.IOException;
 import java.util.List;
@@ -59,16 +59,17 @@ public class Jintercom13Servlet extends HttpServlet {
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("port")!=null){
 			String compte = req.getParameter("compte");
 			String imei = req.getParameter("imei");
-			String server = req.getParameter("server");
+			//String server = req.getParameter("server");
 			String event = req.getParameter("event");
 			int port = Integer.parseInt(req.getParameter("port"));
-			int portSsh = Integer.parseInt(req.getParameter("portSsh"));
+			//int portSsh = Integer.parseInt(req.getParameter("portSsh"));
 			resp.getWriter().println(req.toString());
-			if(compte!=null && server!=null && portSsh!=0 && port!=0){
-				ToolBox.updateOrAddAppA(new Appareil(compte, imei, server, portSsh, port, event));
+			if(compte!=null && port!=0){
+				ToolBox.updateOrAddAppA(new Appareil(compte, imei, port, event));
 				resp.setContentType("text/plain");
 				resp.getWriter().println("ok");
 			}
+			resp.getWriter().println("hihi");
 		}
 	}
 
@@ -81,7 +82,7 @@ public class Jintercom13Servlet extends HttpServlet {
 			int port = Integer.parseInt(req.getParameter("port"));
 			int portSsh = Integer.parseInt(req.getParameter("portSsh"));
 			if(compte!=null && server!=null && portSsh!=0 && port!=0){
-				ToolBox.updateOrAddAppA(new Appareil(compte, imei, server, portSsh, port, event));
+				ToolBox.updateOrAddAppA(new Appareil(compte, imei, port, event));
 				resp.setContentType("text/plain");
 				resp.getWriter().println("ok");
 			}
