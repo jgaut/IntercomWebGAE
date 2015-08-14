@@ -1,7 +1,5 @@
 package intercomWebGAE;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Key;
@@ -15,19 +13,23 @@ import javax.jdo.annotations.PrimaryKey;
 
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class OpenDoor {
+public class OpenDoorAuto {
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
     @Persistent
     @Expose
+    private String compte;
+    @Persistent
+    @Expose
     private Date untilDate;
 
-    public OpenDoor(int delta) {
+    public OpenDoorAuto(String compte, int delta) {
 		super();
 		this.untilDate=new Date();
 		this.untilDate.setMinutes(this.untilDate.getMinutes()+delta);
+		this.compte = compte;
 	}
 
 	public Key getKey() {
@@ -44,6 +46,14 @@ public class OpenDoor {
 
 	public void setUntilDate(Date untilDate) {
 		this.untilDate = untilDate;
+	}
+
+	public String getCompte() {
+		return compte;
+	}
+
+	public void setCompte(String compte) {
+		this.compte = compte;
 	}
 
 }

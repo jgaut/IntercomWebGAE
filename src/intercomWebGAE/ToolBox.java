@@ -86,35 +86,40 @@ public class ToolBox {
 		pm.close();
 	}
 
-	public static void openDoor(OpenDoor openDoor) {
+	//Cette methode enregistre une autorisation pour une ouverture de porte automatique
+	public static boolean setAllowToOpenDoor(OpenDoorAuto openDoor) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		boolean res=false;
 		try {
-			pm.makePersistent(openDoor);
+			if(pm.makePersistent(openDoor)!=null)
+				res=true;
 		} finally {
 			pm.close();
 		}
-
+		return res;
 	}
 
-	public static boolean getOpenDoor() {
-		OpenDoor od;
+	//Cette methode verifie si l'ouverture auto de la porte est autorisee
+	public static boolean allowToOpenDoor(String compte) {
+		OpenDoorAuto od;
 		Date date = new Date();
 		boolean bool = false;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		pm = PMF.get().getPersistenceManager();
-		Query query = pm.newQuery(OpenDoor.class);
-		//query.setFilter("untilDate >= dateParam");
-		//query.declareParameters("java.util.date dateParam");
+		Query query = pm.newQuery(OpenDoorAuto.class);
+		query.setFilter("compte == compteParam");
+		query.declareParameters("java.lang.String compteParam");
 		try {
-			List<OpenDoor> result = (List<OpenDoor>) query.execute();
+			List<OpenDoorAuto> result = (List<OpenDoorAuto>) query.execute(compte);
 			if (!result.isEmpty()) {
-
-				Iterator<OpenDoor> i = result.iterator();
+				Iterator<OpenDoorAuto> i = result.iterator();
 				while(i.hasNext()){
-					
-					if(i.next().getUntilDate().after(date)){
+					od=i.next();
+					if(od.getUntilDate().after(date)){
 						bool = true;
 					}
+					pm.deletePersistent(od);
 				}
 			}
 		} finally {
