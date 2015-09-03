@@ -18,7 +18,7 @@ public class OpenDoorAutoServlet extends HttpServlet {
 	private static final long serialVersionUID = 5413269371278741000L;
 	private Gson gson;
 	private GsonBuilder builder;
-	
+
 	public OpenDoorAutoServlet() {
 		super();
 		builder = new GsonBuilder();
@@ -32,16 +32,28 @@ public class OpenDoorAutoServlet extends HttpServlet {
 
 		resp.setContentType("text/plain");
 
-		//http://1-dot-intercomwebgae.appspot.com/od/?action=add
+		//http://1-dot-intercomwebgae.appspot.com/od/?action=add&tps=x
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("compte")!=null){
-			resp.getWriter().println(gson.toJson(ToolBox.setAllowToOpenDoor(new OpenDoorAuto(req.getParameter("compte"), 5))));
+			int tps = 5;
+			try { 
+				tps = Integer.parseInt(req.getParameter("action")); 
+			} 
+			catch (Exception e) { 
+
+			}
+
+			resp.getWriter().println(gson.toJson(ToolBox.setAllowToOpenDoor(new OpenDoorAuto(req.getParameter("compte"), tps))));
 		}
-		
-		//http://1-dot-intercomwebgae.appspot.com/od/?action=open
+
+		//http://1-dot-intercomwebgae.appspot.com/od/?action=add&compte=c1
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("open") && req.getParameter("compte")!=null){
-			resp.getWriter().println(gson.toJson(ToolBox.allowToOpenDoor(req.getParameter("compte"))));
+			resp.getWriter().println(gson.toJson(ToolBox.allowToOpenDoor(req.getParameter("compte"), true)));
 		}
-		
+
+		//http://1-dot-intercomwebgae.appspot.com/od/?action=ring&compte=c1
+		if(req.getParameter("action")!=null && req.getParameter("action").equals("ring") && req.getParameter("compte")!=null){
+			resp.getWriter().println(gson.toJson(ToolBox.allowToOpenDoor(req.getParameter("compte"), false)));
+		}
 	}
 
 }

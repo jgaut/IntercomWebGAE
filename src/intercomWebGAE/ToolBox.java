@@ -100,7 +100,7 @@ public class ToolBox {
 	}
 
 	//Cette methode verifie si l'ouverture auto de la porte est autorisee
-	public static boolean allowToOpenDoor(String compte) {
+	public static boolean allowToOpenDoor(String compte, boolean erase) {
 		OpenDoorAuto od;
 		Date date = new Date();
 		boolean bool = false;
@@ -119,7 +119,10 @@ public class ToolBox {
 					if(od.getUntilDate().after(date)){
 						bool = true;
 					}
-					pm.deletePersistent(od);
+					if(erase){
+						pm.deletePersistent(od);
+					}
+					
 				}
 			}
 		} finally {
