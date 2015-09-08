@@ -36,13 +36,13 @@ public class OpenDoorAutoServlet extends HttpServlet {
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("compte")!=null){
 			int tps = 5;
 			try { 
-				tps = Integer.parseInt(req.getParameter("action")); 
+				tps = Integer.parseInt(req.getParameter("tps")); 
 			} 
 			catch (Exception e) { 
 
 			}
 
-			resp.getWriter().println(gson.toJson(ToolBox.setAllowToOpenDoor(new OpenDoorAuto(req.getParameter("compte"), tps))));
+			resp.getWriter().println(gson.toJson(ToolBox.setAllowToOpenDoor(req.getParameter("compte"), tps)));
 		}
 
 		//http://1-dot-intercomwebgae.appspot.com/od/?action=add&compte=c1

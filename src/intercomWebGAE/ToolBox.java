@@ -6,6 +6,9 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
+
 public class ToolBox {
 
 	public static List<Appareil> getAppAByCompte(String compte) {
@@ -87,8 +90,8 @@ public class ToolBox {
 	}
 
 	//Cette methode enregistre une autorisation pour une ouverture de porte automatique
-	public static boolean setAllowToOpenDoor(OpenDoorAuto openDoor) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
+	public static boolean setAllowToOpenDoor(String compte, int tps) {
+		/*PersistenceManager pm = PMF.get().getPersistenceManager();
 		boolean res=false;
 		try {
 			if(pm.makePersistent(openDoor)!=null)
@@ -96,12 +99,23 @@ public class ToolBox {
 		} finally {
 			pm.close();
 		}
-		return res;
+		return res;*/
+		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+		String k = "autoopendoor"+compte;
+		cache.delete(k);
+		Date date = new Date();
+		date.setMinutes(date.getMinutes()+tps);//TODO
+		cache.put(k, date);
+		if(cache.get(k)!=null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	//Cette methode verifie si l'ouverture auto de la porte est autorisee
 	public static boolean allowToOpenDoor(String compte, boolean erase) {
-		OpenDoorAuto od;
+		/*OpenDoorAuto od;
 		Date date = new Date();
 		boolean bool = false;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -119,6 +133,7 @@ public class ToolBox {
 					if(od.getUntilDate().after(date)){
 						bool = true;
 					}
+					//Selon le paramétrage, on nettoie la bdd
 					if(erase){
 						pm.deletePersistent(od);
 					}
@@ -130,6 +145,23 @@ public class ToolBox {
 		}
 
 		pm.close();
-		return bool;
+		return bool;*/
+		
+		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+		String k = "autoopendoor"+compte;
+		Date current = new Date();
+		Date date = (Date) cache.get(k);
+
+		if(erase){
+			cache.delete(k);
+		}
+		
+		if(date!=null && date.after(current)){
+			return true;
+		}else{
+			return false;
+		}
+		
+		
 	}
 }
