@@ -56,4 +56,8 @@ public class OpenDoorAutoServlet extends HttpServlet {
 		}
 	}
 
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		this.doGet(req, resp);
+	}
 }
