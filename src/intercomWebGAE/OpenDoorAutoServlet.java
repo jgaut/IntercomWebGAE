@@ -54,6 +54,11 @@ public class OpenDoorAutoServlet extends HttpServlet {
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("ring") && req.getParameter("compte")!=null){
 			resp.getWriter().println(gson.toJson(ToolBox.allowToOpenDoor(req.getParameter("compte"), false)));
 		}
+		
+		//http://1-dot-intercomwebgae.appspot.com/od/?action=thread&compte=c1
+		/*if(req.getParameter("action")!=null && req.getParameter("action").equals("thread") && req.getParameter("compte")!=null){
+			resp.getWriter().println("host "+req.getRemoteHost()+" port "+req.getRemotePort()+" adresse "+req.getRemoteAddr());
+		}*/
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
