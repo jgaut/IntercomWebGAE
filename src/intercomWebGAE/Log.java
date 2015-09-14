@@ -1,5 +1,7 @@
 package intercomWebGAE;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Key;
@@ -26,15 +28,29 @@ public class Log {
     private String event;
     @Persistent
     @Expose
-    private Date date;
+    private String date;
     
-    public Log(String compte, String event, Date date) {
+    public Log(String compte) {
 		super();
 		this.compte = compte;
-		this.event = event;
-		this.date=date;
+		this.event = getCallingMethod();
+		this.date = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 	}
 
+	private String getCallingMethod() {
+    	return trace(Thread.currentThread().getStackTrace(), 3);
+	}
+	
+	private String trace(StackTraceElement[] e, int level) {
+    	if (e != null && e.length >= level) {
+        		StackTraceElement s = e[level];
+        		if (s != null) {
+            		return s.getClassName() + "." + s.getMethodName()+"("+s.getLineNumber()+")";
+        		}
+    	}
+    return null;
+}
+	
 	public Key getKey() {
 		return key;
 	}
@@ -59,13 +75,6 @@ public class Log {
 		this.event = event;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
 
 

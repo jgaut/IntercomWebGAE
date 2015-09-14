@@ -11,6 +11,8 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 public class ToolBox {
 
+	static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+
 	public static List<Appareil> getAppAByCompte(String compte) {
 		List<Appareil> result;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -103,9 +105,15 @@ public class ToolBox {
 		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
 		String k = "autoopendoor"+compte;
 		cache.delete(k);
-		Date date = new Date();
-		date.setMinutes(date.getMinutes()+tps);//TODO
-		cache.put(k, date);
+		cache.put(k, new Date(new Date().getTime()+(tps * ONE_MINUTE_IN_MILLIS)));
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(new Log(compte));
+		} finally {
+			pm.close();
+		}
+		
 		if(cache.get(k)!=null){
 			return true;
 		}else{
@@ -154,6 +162,12 @@ public class ToolBox {
 
 		if(erase){
 			cache.delete(k);
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			try {
+				pm.makePersistent(new Log(compte));
+			} finally {
+				pm.close();
+			}
 		}
 		
 		if(date!=null && date.after(current)){
