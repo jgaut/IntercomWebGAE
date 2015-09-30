@@ -32,7 +32,7 @@ public class OpenDoorAutoServlet extends HttpServlet {
 
 		resp.setContentType("text/plain");
 
-		//http://1-dot-intercomwebgae.appspot.com/od/?action=add&tps=x
+		//http://1-dot-intercomwebgae.appspot.com/od/?action=add&tps=3&compte=c1
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("compte")!=null){
 			int tps = 5;
 			try { 

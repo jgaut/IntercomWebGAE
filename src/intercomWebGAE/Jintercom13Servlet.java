@@ -18,16 +18,21 @@ public class Jintercom13Servlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 5413269371278741000L;
+	private Gson gson;
+	private GsonBuilder builder;
 
 	public Jintercom13Servlet() {
 		super();
+		builder = new GsonBuilder();
+		builder.excludeFieldsWithoutExposeAnnotation();
+		gson = builder.create();
 		// TODO Auto-generated constructor stub
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		Gson gson;
-		resp.setContentType("text/plain");
+		
+	    resp.setContentType("text/plain");
 		
 		//Exemple : ?action=imei&imei=XXX
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("imei")){
@@ -59,33 +64,20 @@ public class Jintercom13Servlet extends HttpServlet {
 		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("port")!=null){
 			String compte = req.getParameter("compte");
 			String imei = req.getParameter("imei");
-			//String server = req.getParameter("server");
+			String server = req.getParameter("server");
 			String event = req.getParameter("event");
 			int port = Integer.parseInt(req.getParameter("port"));
 			//int portSsh = Integer.parseInt(req.getParameter("portSsh"));
-			resp.getWriter().println(req.toString());
+			//resp.getWriter().println(req.toString());
 			if(compte!=null && port!=0){
 				ToolBox.updateOrAddAppA(new Appareil(compte, imei, port, event));
-				resp.setContentType("text/plain");
-				resp.getWriter().println("ok");
+				resp.getWriter().println(gson.toJson(true));
 			}
-			resp.getWriter().println("hihi");
 		}
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-		if(req.getParameter("action")!=null && req.getParameter("action").equals("add") && req.getParameter("port")!=null){
-			String compte = req.getParameter("compte");
-			String imei = req.getParameter("imei");
-			String server = req.getParameter("server");
-			String event = req.getParameter("event");
-			int port = Integer.parseInt(req.getParameter("port"));
-			int portSsh = Integer.parseInt(req.getParameter("portSsh"));
-			if(compte!=null && server!=null && portSsh!=0 && port!=0){
-				ToolBox.updateOrAddAppA(new Appareil(compte, imei, port, event));
-				resp.setContentType("text/plain");
-				resp.getWriter().println("ok");
-			}
-		}
+		
+		this.doGet(req, resp);
 	}
 }

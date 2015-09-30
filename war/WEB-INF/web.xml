@@ -33,7 +33,7 @@
 		<url-pattern>/od/*</url-pattern>
 	</servlet-mapping>
 	
-<filter>
+<!--<filter>
   <filter-name>appstats</filter-name>
    <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
 </filter>
@@ -61,6 +61,6 @@
   <auth-constraint>
     <role-name>admin</role-name>
   </auth-constraint>
-</security-constraint>
+</security-constraint>-->
 
 </web-app>
